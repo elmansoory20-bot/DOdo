@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOdo - Delivery & Artisan Services</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container" id="app">
+        <!-- Navigation Bar -->
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <h1><i class="fas fa-cube"></i> DOdo</h1>
+            </div>
+            <div class="navbar-search">
+                <input type="text" id="searchInput" placeholder="Search posts, services..." class="search-bar">
+            </div>
+            <ul class="navbar-menu">
+                <li><a href="#" data-page="feed" class="nav-link active" title="Home"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                <li><a href="#" data-page="deliveries" class="nav-link" title="Deliveries"><i class="fas fa-box"></i> <span>Deliveries</span></a></li>
+                <li><a href="#" data-page="services" class="nav-link" title="Services"><i class="fas fa-wrench"></i> <span>Services</span></a></li>
+                <li><a href="#" data-page="messages" class="nav-link" title="Messages"><i class="fas fa-envelope"></i> <span>Messages</span></a></li>
+                <li><a href="#" data-page="profile" class="nav-link" title="Profile"><i class="fas fa-user-circle"></i> <span>Profile</span></a></li>
+                <li><a href="#" id="logoutBtn" class="nav-link" title="Logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Auth Pages -->
+            <div id="loginPage" class="page active">
+                <div class="auth-container">
+                    <div class="auth-box">
+                        <h2><i class="fas fa-cube"></i> Welcome to DOdo</h2>
+                        <p>Connect. Deliver. Serve. Grow.</p>
+                        <form id="loginForm" class="auth-form">
+                            <input type="email" id="loginEmail" placeholder="Email address" required>
+                            <input type="password" id="loginPassword" placeholder="Password" required>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+                        <p class="auth-toggle">Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="signupPage" class="page">
+                <div class="auth-container">
+                    <div class="auth-box">
+                        <h2><i class="fas fa-cube"></i> Join DOdo</h2>
+                        <p>Start earning or getting services today</p>
+                        <form id="signupForm" class="auth-form">
+                            <input type="text" id="signupName" placeholder="Full name" required>
+                            <input type="email" id="signupEmail" placeholder="Email address" required>
+                            <input type="tel" id="signupPhone" placeholder="Phone number" required>
+                            <select id="signupState" required>
+                                <option value="">Select State</option>
+                            </select>
+                            <select id="signupCity" required>
+                                <option value="">Select City</option>
+                            </select>
+                            <input type="password" id="signupPassword" placeholder="Password" required>
+                            <input type="password" id="signupConfirmPassword" placeholder="Confirm password" required>
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </form>
+                        <p class="auth-toggle">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Pages -->
+            <div id="feedPage" class="page">
+                <div class="feed-container">
+                    <!-- Post Creator -->
+                    <div class="post-creator">
+                        <div class="post-creator-header">
+                            <img src="https://via.placeholder.com/40" alt="Profile" class="avatar-small">
+                            <input type="text" id="postInput" placeholder="What's on your mind?" class="post-input">
+                        </div>
+                        <div class="post-creator-options">
+                            <button onclick="showCreatePost('delivery')" class="post-option">
+                                <i class="fas fa-box"></i> Delivery
+                            </button>
+                            <button onclick="showCreatePost('service')" class="post-option">
+                                <i class="fas fa-wrench"></i> Service
+                            </button>
+                            <button onclick="showCreatePost('general')" class="post-option">
+                                <i class="fas fa-pen"></i> Post
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Posts Feed -->
+                    <div id="postsFeed" class="posts-feed">
+                        <!-- Posts will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="deliveriesPage" class="page">
+                <div class="content-container">
+                    <h2><i class="fas fa-box"></i> Delivery Services</h2>
+                    <div class="filter-bar">
+                        <select id="deliveryFilter">
+                            <option value="all">All Deliveries</option>
+                            <option value="available">Available</option>
+                            <option value="active">Active</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+                    <div id="deliveriesList" class="posts-feed">
+                        <!-- Deliveries will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="servicesPage" class="page">
+                <div class="content-container">
+                    <h2><i class="fas fa-wrench"></i> Artisan Services</h2>
+                    <div class="filter-bar">
+                        <select id="serviceFilter">
+                            <option value="all">All Services</option>
+                            <option value="barbing">Barbing</option>
+                            <option value="laundry">Laundry</option>
+                            <option value="mechanic">Mechanic</option>
+                            <option value="electrical">Electrical</option>
+                            <option value="plumbing">Plumbing</option>
+                            <option value="carpentry">Carpentry</option>
+                            <option value="cleaning">Cleaning</option>
+                        </select>
+                    </div>
+                    <div id="servicesList" class="posts-feed">
+                        <!-- Services will be loaded here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="messagesPage" class="page">
+                <div class="messages-container">
+                    <div class="messages-list">
+                        <h2><i class="fas fa-envelope"></i> Messages</h2>
+                        <div id="conversationsList" class="conversations-list">
+                            <!-- Conversations will be loaded here -->
+                        </div>
+                    </div>
+                    <div class="message-chat">
+                        <div id="chatArea" class="chat-area">
+                            <p class="placeholder">Select a conversation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="profilePage" class="page">
+                <div class="profile-container">
+                    <div class="profile-header">
+                        <img src="https://via.placeholder.com/150" alt="Profile" class="profile-avatar">
+                        <h2 id="profileName"></h2>
+                        <p id="profileLocation"></p>
+                        <div class="profile-stats">
+                            <div class="stat">
+                                <span class="stat-number" id="deliveriesCompleted">0</span>
+                                <span class="stat-label">Deliveries</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number" id="servicesCompleted">0</span>
+                                <span class="stat-label">Services</span>
+                            </div>
+                            <div class="stat">
+                                <span class="stat-number" id="userRating">0</span>
+                                <span class="stat-label">Rating</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="profile-content">
+                        <h3>My Posts</h3>
+                        <div id="userPostsList" class="posts-feed">
+                            <!-- User posts will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal for Creating Posts -->
+    <div id="createPostModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('createPostModal')">&times;</span>
+            <h2 id="modalTitle">Create Post</h2>
+            <form id="createPostForm" class="form">
+                <textarea id="postContent" placeholder="What's on your mind?" required></textarea>
+                
+                <div id="deliveryFields" class="form-section">
+                    <h3>Delivery Details</h3>
+                    <input type="text" id="pickupLocation" placeholder="Pickup location">
+                    <input type="text" id="deliveryLocation" placeholder="Delivery location">
+                    <select id="deliveryState">
+                        <option value="">Select State</option>
+                    </select>
+                    <select id="deliveryCity">
+                        <option value="">Select City</option>
+                    </select>
+                    <input type="number" id="deliveryPrice" placeholder="Price (₦)" min="0">
+                    <input type="text" id="packageDescription" placeholder="Package description">
+                </div>
+
+                <div id="serviceFields" class="form-section">
+                    <h3>Service Details</h3>
+                    <select id="serviceType" required>
+                        <option value="">Select Service Type</option>
+                        <option value="barbing">Barbing</option>
+                        <option value="laundry">Laundry</option>
+                        <option value="mechanic">Mechanic</option>
+                        <option value="electrical">Electrical</option>
+                        <option value="plumbing">Plumbing</option>
+                        <option value="carpentry">Carpentry</option>
+                        <option value="cleaning">Cleaning</option>
+                        <option value="other">Other</option>
+                    </select>
+                    <select id="serviceState">
+                        <option value="">Select State</option>
+                    </select>
+                    <select id="serviceCity">
+                        <option value="">Select City</option>
+                    </select>
+                    <input type="number" id="servicePrice" placeholder="Budget (₦)" min="0">
+                    <textarea id="serviceDescription" placeholder="Describe the service you need"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Post</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Post Details -->
+    <div id="postDetailModal" class="modal">
+        <div class="modal-content large">
+            <span class="close-modal" onclick="closeModal('postDetailModal')">&times;</span>
+            <div id="postDetailContent">
+                <!-- Post details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="database.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
