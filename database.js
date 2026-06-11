@@ -1,321 +1,286 @@
-// Database Management System
-// Using localStorage as the database for now
+// Database Module - In-Memory Database
 
 const DB = {
-    // Initialize database with sample data
-    init() {
-        if (!localStorage.getItem('dodo_db_initialized')) {
-            this.createTables();
-            this.addSampleData();
-            localStorage.setItem('dodo_db_initialized', 'true');
-        }
+    // Sample Data
+    states: ['Lagos', 'FCT', 'Rivers', 'Oyo', 'Kano', 'Kaduna', 'Katsina', 'Osun', 'Ekiti', 'Ondo', 'Edo', 'Delta', 'Cross River', 'Bayelsa', 'Akwa Ibom', 'Enugu', 'Ebonyi', 'Abia', 'Imo', 'Anambra'],
+    
+    cities: {
+        'Lagos': ['Ikeja', 'Lekki', 'Victoria Island', 'Surulere', 'Yaba', 'Ikoyi', 'Ajah', 'Badagry'],
+        'FCT': ['Abuja', 'Garki', 'Wuse', 'Guzape', 'Asokoro'],
+        'Rivers': ['Port Harcourt', 'Obio Akpor', 'Bonny', 'Okrika'],
+        'Oyo': ['Ibadan', 'Ogbomoso', 'Oyo', 'Iseyin'],
+        'Kano': ['Kano City', 'Nassarawa', 'Wudil'],
+        'Kaduna': ['Kaduna City', 'Zaria', 'Kafanchan'],
+        'Katsina': ['Katsina', 'Daura', 'Jibia'],
+        'Osun': ['Osogbo', 'Ife', 'Ijesha'],
+        'Ekiti': ['Ado Ekiti', 'Ikere'],
+        'Ondo': ['Akure', 'Owo', 'Ondo City'],
+        'Edo': ['Benin City', 'Auchi'],
+        'Delta': ['Asaba', 'Warri', 'Sapele'],
+        'Cross River': ['Calabar', 'Ogoja'],
+        'Bayelsa': ['Yenagoa', 'Brass'],
+        'Akwa Ibom': ['Uyo', 'Eket'],
+        'Enugu': ['Enugu City', 'Nsukka'],
+        'Ebonyi': ['Abakaliki', 'Onuebonyi'],
+        'Abia': ['Aba', 'Umuahia'],
+        'Imo': ['Owerri', 'Orlu'],
+        'Anambra': ['Onitsha', 'Awka']
     },
 
-    // Create database tables
-    createTables() {
-        localStorage.setItem('users', JSON.stringify([]));
-        localStorage.setItem('posts', JSON.stringify([]));
-        localStorage.setItem('deliveries', JSON.stringify([]));
-        localStorage.setItem('services', JSON.stringify([]));
-        localStorage.setItem('messages', JSON.stringify([]));
-        localStorage.setItem('ratings', JSON.stringify([]));
-        localStorage.setItem('locations', JSON.stringify(this.getNigerianLocations()));
-    },
-
-    // Get Nigerian states and cities
-    getNigerianLocations() {
-        return {
-            'Abia': ['Aba', 'Umuahia', 'Ohafia', 'Arochukwu'],
-            'Adamawa': ['Yola', 'Girei', 'Mayo-Belwa', 'Mubi'],
-            'Akwa Ibom': ['Uyo', 'Eket', 'Oron', 'Ikot Ekpene'],
-            'Anambra': ['Onitsha', 'Awka', 'Nnewi', 'Ekwulobia'],
-            'Bauchi': ['Bauchi', 'Jigawa', 'Azare', 'Misau'],
-            'Bayelsa': ['Yenagoa', 'Brass', 'Ogbia', 'Ekeremor'],
-            'Benue': ['Makurdi', 'Gboko', 'Otukpo', 'Katsina-Ala'],
-            'Borno': ['Maiduguri', 'Biu', 'Damaturu', 'Jere'],
-            'Cross River': ['Calabar', 'Buea', 'Ikom', 'Obudu'],
-            'Delta': ['Warri', 'Asaba', 'Effurun', 'Agbor'],
-            'Ebonyi': ['Abakaliki', 'Ebonyi', 'Ishielu', 'Onicha'],
-            'Edo': ['Benin City', 'Midwestern', 'Okada', 'Auchi'],
-            'Ekiti': ['Ado-Ekiti', 'Ikere', 'Ijero', 'Oye'],
-            'Enugu': ['Enugu', 'Nsukka', 'Enugu Town', 'Agbani'],
-            'FCT': ['Abuja', 'Kuje', 'Gwagwalada', 'Bwari'],
-            'Gombe': ['Gombe', 'Akko', 'Balanga', 'Dukku'],
-            'Imo': ['Owerri', 'Orlu', 'Onitsha', 'Aba'],
-            'Jigawa': ['Dutse', 'Hadejia', 'Gumel', 'Kafin Hausa'],
-            'Kaduna': ['Kaduna', 'Zaria', 'Kafanchan', 'Saminaka'],
-            'Kano': ['Kano', 'Kano City', 'Tarauni', 'Garko'],
-            'Katsina': ['Katsina', 'Katsina City', 'Daura', 'Dutsin-Ma'],
-            'Kebbi': ['Birnin Kebbi', 'Argungu', 'Zuru', 'Jega'],
-            'Kogi': ['Lokoja', 'Okene', 'Idah', 'Okehi'],
-            'Kwara': ['Ilorin', 'Offa', 'Kwara', 'Pategi'],
-            'Lagos': ['Lagos Island', 'Ikeja', 'Victoria Island', 'Lekki', 'Surulere', 'Yaba', 'Shomolu', 'Mushin'],
-            'Nasarawa': ['Lafia', 'Nasarawa', 'Keffi', 'Obi'],
-            'Niger': ['Minna', 'Niger', 'Suleja', 'Bida'],
-            'Ogun': ['Abeokuta', 'Ijebu-Ode', 'Sagamu', 'Ibadan'],
-            'Ondo': ['Akure', 'Ondo', 'Ore', 'Owo'],
-            'Osun': ['Osogbo', 'Ile-Ife', 'Iwo', 'Ijesha'],
-            'Oyo': ['Ibadan', 'Oyo', 'Ogbomoso', 'Oyo State'],
-            'Plateau': ['Jos', 'Pankshin', 'Barkin Ladi', 'Kanang'],
-            'Rivers': ['Port Harcourt', 'Obio-Akpor', 'Bonny', 'Okrika'],
-            'Sokoto': ['Sokoto', 'Tambuwal', 'Bodinga', 'Wamakko'],
-            'Taraba': ['Jalingo', 'Wukari', 'Takum', 'Zing'],
-            'Yobe': ['Damaturu', 'Potiskum', 'Gashua', 'Karasuwa'],
-            'Zamfara': ['Gusau', 'Kaura-Namoda', 'Talata-Mafara', 'Bakura']
-        };
-    },
-
-    // Add sample data
-    addSampleData() {
-        const sampleUsers = [
-            {
-                id: 'user_1',
-                name: 'Chukwu Emmanuel',
-                email: 'chukwu@example.com',
-                phone: '08012345678',
-                state: 'Lagos',
-                city: 'Lagos Island',
-                password: 'password123',
-                avatar: 'https://via.placeholder.com/150?text=Chukwu',
-                createdAt: new Date().toISOString(),
-                rating: 4.8,
-                completedDeliveries: 15,
-                completedServices: 5
-            },
-            {
-                id: 'user_2',
-                name: 'Amina Hassan',
-                email: 'amina@example.com',
-                phone: '08098765432',
-                state: 'Kano',
-                city: 'Kano',
-                password: 'password123',
-                avatar: 'https://via.placeholder.com/150?text=Amina',
-                createdAt: new Date().toISOString(),
-                rating: 4.9,
-                completedDeliveries: 22,
-                completedServices: 8
-            }
-        ];
-
-        const samplePosts = [
-            {
-                id: 'post_1',
-                userId: 'user_1',
-                type: 'delivery',
-                title: 'Need urgent delivery from Ikeja to VI',
-                content: 'I have a package that needs to be delivered urgently from Ikeja to Victoria Island. Package is important documents, small and lightweight.',
-                state: 'Lagos',
-                city: 'Lagos Island',
-                pickupLocation: 'Ikeja',
-                deliveryLocation: 'Victoria Island',
-                price: 5000,
-                packageDescription: 'Important documents',
-                status: 'available',
-                createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(),
-                likes: 3,
-                comments: 1
-            },
-            {
-                id: 'post_2',
-                userId: 'user_2',
-                type: 'service',
-                title: 'Need professional laundry service',
-                content: 'Looking for a reliable and professional laundry service. I have about 50kg of clothes that need washing and pressing.',
-                state: 'Kano',
-                city: 'Kano',
-                serviceType: 'laundry',
-                price: 8000,
-                description: 'Professional laundry service needed for 50kg of clothes',
-                status: 'available',
-                createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(),
-                likes: 2,
-                comments: 0
-            }
-        ];
-
-        localStorage.setItem('users', JSON.stringify(sampleUsers));
-        localStorage.setItem('posts', JSON.stringify(samplePosts));
-    },
-
-    // User functions
-    addUser(userData) {
-        const users = JSON.parse(localStorage.getItem('users'));
-        const newUser = {
-            id: 'user_' + Date.now(),
-            ...userData,
-            createdAt: new Date().toISOString(),
-            rating: 0,
+    users: [
+        {
+            id: '1',
+            name: 'Chukwu Okafor',
+            email: 'chukwu@example.com',
+            password: 'password123',
+            phone: '08012345678',
+            state: 'Lagos',
+            city: 'Ikeja',
+            avatar: 'https://i.pravatar.cc/150?img=1',
+            completedDeliveries: 12,
+            completedServices: 5,
+            rating: 4.8,
+            role: 'customer'
+        },
+        {
+            id: '2',
+            name: 'Tunde Rider',
+            email: 'tunde@example.com',
+            password: 'password123',
+            phone: '08087654321',
+            state: 'Lagos',
+            city: 'Lekki',
+            avatar: 'https://i.pravatar.cc/150?img=2',
+            completedDeliveries: 45,
+            completedServices: 0,
+            rating: 4.9,
+            role: 'rider'
+        },
+        {
+            id: '3',
+            name: 'Amaka Laundry Services',
+            email: 'amaka@example.com',
+            password: 'password123',
+            phone: '08098765432',
+            state: 'Lagos',
+            city: 'Surulere',
+            avatar: 'https://i.pravatar.cc/150?img=3',
             completedDeliveries: 0,
-            completedServices: 0
+            completedServices: 87,
+            rating: 4.7,
+            role: 'artisan'
+        }
+    ],
+
+    posts: [
+        {
+            id: '1',
+            userId: '1',
+            type: 'delivery',
+            title: 'Send package from Computer Village to Yaba',
+            content: 'Need to send sealed phone accessories package. Light weight, should arrive today.',
+            state: 'Lagos',
+            city: 'Ikeja',
+            pickupLocation: 'Computer Village, Ikeja',
+            deliveryLocation: 'Sabo, Yaba',
+            price: 3500,
+            status: 'available',
+            createdAt: new Date(Date.now() - 3600000).toISOString()
+        },
+        {
+            id: '2',
+            userId: '3',
+            type: 'service',
+            title: 'Professional Laundry & Ironing Service',
+            content: 'We offer pickup, wash, iron and delivery service within 48 hours. Quality guaranteed!',
+            state: 'Lagos',
+            city: 'Surulere',
+            serviceType: 'laundry',
+            price: 2500,
+            description: 'Shirts, native wears, delicate fabrics - all handled professionally',
+            status: 'available',
+            createdAt: new Date(Date.now() - 7200000).toISOString()
+        },
+        {
+            id: '3',
+            userId: '1',
+            type: 'service',
+            title: 'Need a Barber for Home Visit',
+            content: 'Looking for experienced barber around Lekki for quick haircut.',
+            state: 'Lagos',
+            city: 'Lekki',
+            serviceType: 'barbing',
+            price: 5000,
+            description: 'Professional barber with sterilized tools needed for home visit this evening',
+            status: 'available',
+            createdAt: new Date(Date.now() - 10800000).toISOString()
+        },
+        {
+            id: '4',
+            userId: '1',
+            type: 'delivery',
+            title: 'Deliver documents to FCT, Abuja',
+            content: 'Important business documents need to reach Abuja office by tomorrow morning.',
+            state: 'FCT',
+            city: 'Abuja',
+            pickupLocation: 'VI, Lagos',
+            deliveryLocation: 'Garki, Abuja',
+            price: 8500,
+            status: 'available',
+            createdAt: new Date(Date.now() - 14400000).toISOString()
+        }
+    ],
+
+    conversations: {},
+
+    messages: {},
+
+    // Get all users
+    getUsers() {
+        return this.users;
+    },
+
+    // Get user by ID
+    getUserById(id) {
+        return this.users.find(u => u.id === id);
+    },
+
+    // Get user by email
+    getUser(email) {
+        return this.users.find(u => u.email === email);
+    },
+
+    // Add new user
+    addUser(userData) {
+        const newUser = {
+            id: Date.now().toString(),
+            ...userData,
+            completedDeliveries: 0,
+            completedServices: 0,
+            rating: 0,
+            role: 'customer'
         };
-        users.push(newUser);
-        localStorage.setItem('users', JSON.stringify(users));
+        this.users.push(newUser);
         return newUser;
     },
 
-    getUser(email) {
-        const users = JSON.parse(localStorage.getItem('users'));
-        return users.find(u => u.email === email);
+    // Get all posts
+    getPosts() {
+        return this.posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     },
 
-    getUserById(id) {
-        const users = JSON.parse(localStorage.getItem('users'));
-        return users.find(u => u.id === id);
+    // Get posts by type
+    getPostsByType(type) {
+        return this.posts.filter(p => p.type === type).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     },
 
-    // Post functions
+    // Get posts by user
+    getPostsByUser(userId) {
+        return this.posts.filter(p => p.userId === userId);
+    },
+
+    // Get post by ID
+    getPostById(id) {
+        return this.posts.find(p => p.id === id);
+    },
+
+    // Add new post
     addPost(postData) {
-        const posts = JSON.parse(localStorage.getItem('posts'));
         const newPost = {
-            id: 'post_' + Date.now(),
+            id: Date.now().toString(),
             ...postData,
-            createdAt: new Date().toISOString(),
-            likes: 0,
-            comments: 0,
-            status: 'available'
+            status: 'available',
+            createdAt: new Date().toISOString()
         };
-        posts.push(newPost);
-        localStorage.setItem('posts', JSON.stringify(posts));
+        this.posts.push(newPost);
         return newPost;
     },
 
-    getPosts() {
-        const posts = JSON.parse(localStorage.getItem('posts'));
-        return posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    // Search posts
+    searchPosts(query) {
+        const q = query.toLowerCase();
+        return this.posts.filter(p => 
+            p.title.toLowerCase().includes(q) || 
+            p.content.toLowerCase().includes(q) ||
+            p.city.toLowerCase().includes(q)
+        );
     },
 
-    getPostById(id) {
-        const posts = JSON.parse(localStorage.getItem('posts'));
-        return posts.find(p => p.id === id);
+    // Get states
+    getStates() {
+        return this.states;
     },
 
-    getPostsByUser(userId) {
-        const posts = JSON.parse(localStorage.getItem('posts'));
-        return posts.filter(p => p.userId === userId);
+    // Get cities by state
+    getCitiesByState(state) {
+        return this.cities[state] || [];
     },
 
-    getPostsByType(type) {
-        const posts = JSON.parse(localStorage.getItem('posts'));
-        return posts.filter(p => p.type === type);
+    // Get Nigerian locations
+    getNigerianLocations() {
+        return this.cities;
     },
 
-    getPostsByService(serviceType) {
-        const posts = JSON.parse(localStorage.getItem('posts'));
-        return posts.filter(p => p.type === 'service' && p.serviceType === serviceType);
+    // Get locations
+    getLocations() {
+        const locations = [];
+        Object.keys(this.cities).forEach(state => {
+            this.cities[state].forEach(city => {
+                locations.push({ state, city });
+            });
+        });
+        return locations;
     },
 
-    getPostsByLocation(state, city) {
-        const posts = JSON.parse(localStorage.getItem('posts'));
-        return posts.filter(p => p.state === state && p.city === city);
-    },
-
-    updatePost(id, updates) {
-        const posts = JSON.parse(localStorage.getItem('posts'));
-        const postIndex = posts.findIndex(p => p.id === id);
-        if (postIndex !== -1) {
-            posts[postIndex] = { ...posts[postIndex], ...updates };
-            localStorage.setItem('posts', JSON.stringify(posts));
-            return posts[postIndex];
+    // Get conversations
+    getConversations(userId) {
+        if (!this.conversations[userId]) {
+            this.conversations[userId] = {};
         }
-        return null;
+        return this.conversations[userId];
     },
 
-    // Message functions
+    // Add message
     addMessage(senderId, receiverId, message) {
-        const messages = JSON.parse(localStorage.getItem('messages'));
-        const newMessage = {
-            id: 'msg_' + Date.now(),
+        const conversationKey = `${senderId}-${receiverId}`;
+        
+        if (!this.messages[conversationKey]) {
+            this.messages[conversationKey] = [];
+        }
+
+        this.messages[conversationKey].push({
             senderId,
             receiverId,
             message,
-            createdAt: new Date().toISOString(),
-            read: false
-        };
-        messages.push(newMessage);
-        localStorage.setItem('messages', JSON.stringify(messages));
-        return newMessage;
-    },
-
-    getMessages(userId1, userId2) {
-        const messages = JSON.parse(localStorage.getItem('messages'));
-        return messages.filter(m => 
-            (m.senderId === userId1 && m.receiverId === userId2) || 
-            (m.senderId === userId2 && m.receiverId === userId1)
-        ).sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-    },
-
-    getConversations(userId) {
-        const messages = JSON.parse(localStorage.getItem('messages'));
-        const conversations = {};
-
-        messages.forEach(m => {
-            const otherUserId = m.senderId === userId ? m.receiverId : m.senderId;
-            if (!conversations[otherUserId]) {
-                conversations[otherUserId] = [];
-            }
-            conversations[otherUserId].push(m);
+            timestamp: new Date().toISOString()
         });
 
-        return conversations;
+        // Update conversations
+        if (!this.conversations[senderId]) this.conversations[senderId] = {};
+        if (!this.conversations[senderId][receiverId]) {
+            this.conversations[senderId][receiverId] = [];
+        }
+        this.conversations[senderId][receiverId] = this.messages[conversationKey];
+
+        if (!this.conversations[receiverId]) this.conversations[receiverId] = {};
+        if (!this.conversations[receiverId][senderId]) {
+            this.conversations[receiverId][senderId] = [];
+        }
+        this.conversations[receiverId][senderId] = this.messages[conversationKey];
     },
 
-    // Rating functions
-    addRating(fromUserId, toUserId, rating, review) {
-        const ratings = JSON.parse(localStorage.getItem('ratings'));
-        const newRating = {
-            id: 'rating_' + Date.now(),
-            fromUserId,
-            toUserId,
-            rating,
-            review,
-            createdAt: new Date().toISOString()
-        };
-        ratings.push(newRating);
-        localStorage.setItem('ratings', JSON.stringify(ratings));
-        return newRating;
-    },
-
-    getRatings(userId) {
-        const ratings = JSON.parse(localStorage.getItem('ratings'));
-        return ratings.filter(r => r.toUserId === userId);
-    },
-
-    // Location functions
-    getLocations() {
-        return JSON.parse(localStorage.getItem('locations'));
-    },
-
-    getStates() {
-        const locations = JSON.parse(localStorage.getItem('locations'));
-        return Object.keys(locations).sort();
-    },
-
-    getCitiesByState(state) {
-        const locations = JSON.parse(localStorage.getItem('locations'));
-        return locations[state] || [];
-    },
-
-    // Search functions
-    searchPosts(query) {
-        const posts = this.getPosts();
-        const lowerQuery = query.toLowerCase();
-        return posts.filter(p => 
-            p.title.toLowerCase().includes(lowerQuery) ||
-            p.content.toLowerCase().includes(lowerQuery) ||
-            (p.serviceType && p.serviceType.toLowerCase().includes(lowerQuery))
-        );
-    },
-
-    searchUsers(query) {
-        const users = JSON.parse(localStorage.getItem('users'));
-        const lowerQuery = query.toLowerCase();
-        return users.filter(u => 
-            u.name.toLowerCase().includes(lowerQuery) ||
-            u.email.toLowerCase().includes(lowerQuery)
-        );
+    // Get messages between two users
+    getMessages(userId1, userId2) {
+        const key1 = `${userId1}-${userId2}`;
+        const key2 = `${userId2}-${userId1}`;
+        return this.messages[key1] || this.messages[key2] || [];
     }
 };
 
-// Initialize database when script loads
-DB.init();
+// Initialize with sample conversations
+DB.addMessage('1', '2', 'Hi Tunde, can you help with this delivery?');
+DB.addMessage('2', '1', 'Yes! I can help. What time?');
+DB.addMessage('1', '2', 'Around 3 PM');
+
+DB.addMessage('1', '3', 'Hi Amaka, do you offer laundry service?');
+DB.addMessage('3', '1', 'Yes! We do. Send us your clothes and we deliver within 48 hours');
