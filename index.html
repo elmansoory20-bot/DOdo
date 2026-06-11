@@ -3,29 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOdo - Delivery & Artisan Services</title>
+    <title>DOdo - Social Logistics & Artisan Marketplace</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container" id="app">
-        <!-- Navigation Bar -->
-        <nav class="navbar">
-            <div class="navbar-brand">
-                <h1><i class="fas fa-cube"></i> DOdo</h1>
+        <!-- Header Navigation -->
+        <header class="header">
+            <div class="header-container">
+                <div class="logo-section">
+                    <div class="logo">
+                        <span class="logo-icon">📦</span>
+                        <div class="logo-text">
+                            <h1>DOdo</h1>
+                            <p>delivery + artisans</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-section hidden-mobile">
+                    <input type="text" id="searchInput" placeholder="🔎 Search deliveries, barbers, mechanics..." class="search-bar">
+                </div>
+
+                <nav class="nav-icons">
+                    <a href="#" data-page="feed" class="nav-icon active" title="Home">🏠</a>
+                    <a href="#" data-page="deliveries" class="nav-icon" title="Deliveries">📦</a>
+                    <a href="#" data-page="services" class="nav-icon" title="Services">🛠️</a>
+                    <a href="#" data-page="messages" class="nav-icon" title="Messages">💬</a>
+                    <a href="#" data-page="profile" class="nav-icon" title="Profile">👤</a>
+                    <a href="#" id="logoutBtn" class="nav-icon" title="Logout">🚪</a>
+                </nav>
             </div>
-            <div class="navbar-search">
-                <input type="text" id="searchInput" placeholder="Search posts, services..." class="search-bar">
-            </div>
-            <ul class="navbar-menu">
-                <li><a href="#" data-page="feed" class="nav-link active" title="Home"><i class="fas fa-home"></i> <span>Home</span></a></li>
-                <li><a href="#" data-page="deliveries" class="nav-link" title="Deliveries"><i class="fas fa-box"></i> <span>Deliveries</span></a></li>
-                <li><a href="#" data-page="services" class="nav-link" title="Services"><i class="fas fa-wrench"></i> <span>Services</span></a></li>
-                <li><a href="#" data-page="messages" class="nav-link" title="Messages"><i class="fas fa-envelope"></i> <span>Messages</span></a></li>
-                <li><a href="#" data-page="profile" class="nav-link" title="Profile"><i class="fas fa-user-circle"></i> <span>Profile</span></a></li>
-                <li><a href="#" id="logoutBtn" class="nav-link" title="Logout"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></a></li>
-            </ul>
-        </nav>
+        </header>
 
         <!-- Main Content -->
         <main class="main-content">
@@ -33,7 +43,10 @@
             <div id="loginPage" class="page active">
                 <div class="auth-container">
                     <div class="auth-box">
-                        <h2><i class="fas fa-cube"></i> Welcome to DOdo</h2>
+                        <div class="auth-logo">
+                            <span>📦</span>
+                        </div>
+                        <h2>Welcome to DOdo</h2>
                         <p>Connect. Deliver. Serve. Grow.</p>
                         <form id="loginForm" class="auth-form">
                             <input type="email" id="loginEmail" placeholder="Email address" required>
@@ -48,9 +61,19 @@
             <div id="signupPage" class="page">
                 <div class="auth-container">
                     <div class="auth-box">
-                        <h2><i class="fas fa-cube"></i> Join DOdo</h2>
+                        <div class="auth-logo">
+                            <span>📦</span>
+                        </div>
+                        <h2>Join DOdo</h2>
                         <p>Start earning or getting services today</p>
                         <form id="signupForm" class="auth-form">
+                            <div class="profile-pic-upload">
+                                <img id="signupProfilePreview" src="https://via.placeholder.com/80?text=Photo" alt="Profile" class="profile-pic-preview">
+                                <label for="signupProfilePic" class="upload-label">
+                                    <i class="fas fa-camera"></i> Upload Photo
+                                </label>
+                                <input type="file" id="signupProfilePic" accept="image/*" class="file-input">
+                            </div>
                             <input type="text" id="signupName" placeholder="Full name" required>
                             <input type="email" id="signupEmail" placeholder="Email address" required>
                             <input type="tel" id="signupPhone" placeholder="Phone number" required>
@@ -69,38 +92,146 @@
                 </div>
             </div>
 
-            <!-- Main Pages -->
-            <div id="feedPage" class="page">
-                <div class="feed-container">
-                    <!-- Post Creator -->
-                    <div class="post-creator">
-                        <div class="post-creator-header">
-                            <img src="https://via.placeholder.com/40" alt="Profile" class="avatar-small">
-                            <input type="text" id="postInput" placeholder="What's on your mind?" class="post-input">
-                        </div>
-                        <div class="post-creator-options">
-                            <button onclick="showCreatePost('delivery')" class="post-option">
-                                <i class="fas fa-box"></i> Delivery
-                            </button>
-                            <button onclick="showCreatePost('service')" class="post-option">
-                                <i class="fas fa-wrench"></i> Service
-                            </button>
-                            <button onclick="showCreatePost('general')" class="post-option">
-                                <i class="fas fa-pen"></i> Post
-                            </button>
-                        </div>
-                    </div>
+            <!-- Dashboard -->
+            <div id="dashboardPage" class="page dashboard-page">
+                <div class="dashboard-grid">
+                    <!-- Sidebar -->
+                    <aside class="sidebar hidden-mobile">
+                        <section class="card user-profile-card">
+                            <div class="user-header">
+                                <img id="sidebarUserAvatar" src="https://via.placeholder.com/50" alt="Profile" class="user-avatar">
+                                <div class="user-info">
+                                    <h3 id="sidebarUserName">User Name</h3>
+                                    <p id="sidebarUserStatus">Verified customer</p>
+                                </div>
+                            </div>
+                            <nav class="sidebar-nav">
+                                <a href="#" class="sidebar-nav-item" onclick="showPage('feed'); return false;">
+                                    <span>📰</span> News Feed
+                                </a>
+                                <a href="#" class="sidebar-nav-item" onclick="showPage('deliveries'); return false;">
+                                    <span>📦</span> Nearby Requests
+                                </a>
+                                <a href="#" class="sidebar-nav-item" onclick="showCreatePost('delivery'); return false;">
+                                    <span>🚚</span> Send Package
+                                </a>
+                                <a href="#" class="sidebar-nav-item" onclick="showCreatePost('service'); return false;">
+                                    <span>🔧</span> Find Artisan
+                                </a>
+                                <a href="#" class="sidebar-nav-item" onclick="showPage('profile'); return false;">
+                                    <span>💳</span> My Wallet
+                                </a>
+                                <a href="#" class="sidebar-nav-item" onclick="showPage('profile'); return false;">
+                                    <span>⭐</span> Ratings & Trust
+                                </a>
+                            </nav>
+                        </section>
 
-                    <!-- Posts Feed -->
-                    <div id="postsFeed" class="posts-feed">
-                        <!-- Posts will be loaded here -->
-                    </div>
+                        <section class="card info-card">
+                            <h3>Nigeria Launch</h3>
+                            <div class="info-items">
+                                <div class="info-item success">
+                                    <span>✅</span> Areas & towns saved to database
+                                </div>
+                                <div class="info-item info">
+                                    <span>🌍</span> Ready for African expansion
+                                </div>
+                                <div class="info-item warning">
+                                    <span>💸</span> Escrow payments protected
+                                </div>
+                            </div>
+                        </section>
+                    </aside>
+
+                    <!-- Main Feed -->
+                    <section class="feed">
+                        <!-- Stats -->
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-icon">🟢</div>
+                                <p class="stat-label">Open Posts</p>
+                                <p class="stat-value" id="openPostsCount">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">📦</div>
+                                <p class="stat-label">Deliveries</p>
+                                <p class="stat-value" id="deliveriesCount">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">🛠️</div>
+                                <p class="stat-label">Services</p>
+                                <p class="stat-value" id="servicesCount">0</p>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon">💳</div>
+                                <p class="stat-label">Escrow Held</p>
+                                <p class="stat-value" id="escrowCount">₦0</p>
+                            </div>
+                        </div>
+
+                        <!-- Post Creator -->
+                        <section class="card composer-card">
+                            <div class="composer-header">
+                                <img id="composerUserAvatar" src="https://via.placeholder.com/44" alt="Profile" class="composer-avatar">
+                                <input type="text" id="postInput" placeholder="What do you want moved or fixed today?" class="composer-input" readonly>
+                            </div>
+                            <div class="composer-actions">
+                                <button onclick="showCreatePost('delivery')" class="composer-action">
+                                    📦 Send Package
+                                </button>
+                                <button onclick="showCreatePost('service')" class="composer-action">
+                                    🛠️ Find Service
+                                </button>
+                                <button onclick="showCreatePost('general')" class="composer-action">
+                                    📝 Post
+                                </button>
+                            </div>
+                        </section>
+
+                        <!-- Posts Feed -->
+                        <div id="postsFeed" class="posts-feed">
+                            <!-- Posts will be loaded here -->
+                        </div>
+                    </section>
+
+                    <!-- Right Sidebar -->
+                    <aside class="right-sidebar hidden-mobile">
+                        <section class="card">
+                            <h3 class="card-title">Active Categories</h3>
+                            <div class="categories-grid" id="categoriesGrid">
+                                <!-- Categories will be loaded here -->
+                            </div>
+                        </section>
+
+                        <section class="card">
+                            <h3 class="card-title">Nearby Trusted People</h3>
+                            <div class="people-list" id="peopleList">
+                                <!-- People will be loaded here -->
+                            </div>
+                        </section>
+
+                        <section class="card">
+                            <h3 class="card-title">Location Database</h3>
+                            <p class="text-small">Every dropdown selection becomes structured data for matching by country, state, and area.</p>
+                            <div class="location-stats">
+                                <div class="location-stat">
+                                    <p class="stat-value" id="totalLocationsCount">0</p>
+                                    <p class="stat-label">Total Areas</p>
+                                </div>
+                                <div class="location-stat">
+                                    <p class="stat-value" id="nigeriaLocationsCount">0</p>
+                                    <p class="stat-label">Nigeria</p>
+                                </div>
+                            </div>
+                        </section>
+                    </aside>
                 </div>
             </div>
 
+            <!-- Other Pages -->
             <div id="deliveriesPage" class="page">
                 <div class="content-container">
-                    <h2><i class="fas fa-box"></i> Delivery Services</h2>
+                    <h2>📦 Delivery Services</h2>
                     <div class="filter-bar">
                         <select id="deliveryFilter">
                             <option value="all">All Deliveries</option>
@@ -117,17 +248,17 @@
 
             <div id="servicesPage" class="page">
                 <div class="content-container">
-                    <h2><i class="fas fa-wrench"></i> Artisan Services</h2>
+                    <h2>🛠️ Artisan Services</h2>
                     <div class="filter-bar">
                         <select id="serviceFilter">
                             <option value="all">All Services</option>
-                            <option value="barbing">Barbing</option>
-                            <option value="laundry">Laundry</option>
-                            <option value="mechanic">Mechanic</option>
-                            <option value="electrical">Electrical</option>
-                            <option value="plumbing">Plumbing</option>
-                            <option value="carpentry">Carpentry</option>
-                            <option value="cleaning">Cleaning</option>
+                            <option value="barbing">💈 Barbing</option>
+                            <option value="laundry">🧺 Laundry</option>
+                            <option value="mechanic">🔧 Mechanic</option>
+                            <option value="electrical">💡 Electrical</option>
+                            <option value="plumbing">🚰 Plumbing</option>
+                            <option value="carpentry">🪵 Carpentry</option>
+                            <option value="cleaning">🧹 Cleaning</option>
                         </select>
                     </div>
                     <div id="servicesList" class="posts-feed">
@@ -139,7 +270,7 @@
             <div id="messagesPage" class="page">
                 <div class="messages-container">
                     <div class="messages-list">
-                        <h2><i class="fas fa-envelope"></i> Messages</h2>
+                        <h2>💬 Messages</h2>
                         <div id="conversationsList" class="conversations-list">
                             <!-- Conversations will be loaded here -->
                         </div>
@@ -155,7 +286,13 @@
             <div id="profilePage" class="page">
                 <div class="profile-container">
                     <div class="profile-header">
-                        <img src="https://via.placeholder.com/150" alt="Profile" class="profile-avatar">
+                        <div class="profile-pic-container">
+                            <img id="profileAvatar" src="https://via.placeholder.com/150" alt="Profile" class="profile-avatar">
+                            <label for="profilePicInput" class="profile-pic-edit">
+                                <i class="fas fa-camera"></i>
+                            </label>
+                            <input type="file" id="profilePicInput" accept="image/*" class="file-input">
+                        </div>
                         <h2 id="profileName"></h2>
                         <p id="profileLocation"></p>
                         <div class="profile-stats">
@@ -210,13 +347,13 @@
                     <h3>Service Details</h3>
                     <select id="serviceType" required>
                         <option value="">Select Service Type</option>
-                        <option value="barbing">Barbing</option>
-                        <option value="laundry">Laundry</option>
-                        <option value="mechanic">Mechanic</option>
-                        <option value="electrical">Electrical</option>
-                        <option value="plumbing">Plumbing</option>
-                        <option value="carpentry">Carpentry</option>
-                        <option value="cleaning">Cleaning</option>
+                        <option value="barbing">💈 Barbing</option>
+                        <option value="laundry">🧺 Laundry</option>
+                        <option value="mechanic">🔧 Mechanic</option>
+                        <option value="electrical">💡 Electrical</option>
+                        <option value="plumbing">🚰 Plumbing</option>
+                        <option value="carpentry">🪵 Carpentry</option>
+                        <option value="cleaning">🧹 Cleaning</option>
                         <option value="other">Other</option>
                     </select>
                     <select id="serviceState">
